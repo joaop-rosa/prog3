@@ -3,6 +3,12 @@ import java.util.Scanner;
 import enums.PlayerType;
 import enums.Symbol;
 
+/* 
+    1 - Verificar caso empate
+    2 - Simplificar código de validacão
+    3 - Criar inteligência para COM
+*/
+
 public class App {
 
     static Symbol askSymbol() {

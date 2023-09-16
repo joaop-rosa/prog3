@@ -91,8 +91,74 @@ public class Game {
                         && (fields[2][0].isChecked() && fields[2][0].getCheckedPlayer().equals(player)));
     }
 
-    public boolean hasWinner() {
+    boolean isLineDraw(int line) {
+        int qtdPlayer1Fields = 0;
+        int qtdPlayer2Fields = 0;
+        for (int column = 0; column < 3; column++) {
+            if (fields[line][column].isChecked()) {
+                if (!fields[line][column].getCheckedPlayer().equals(player1)) {
+                    qtdPlayer1Fields++;
+                } else {
+                    qtdPlayer2Fields++;
+                }
+            }
+        }
+        return (qtdPlayer1Fields == 1 && qtdPlayer2Fields == 1);
+    }
+
+    boolean isColumnDraw(int column) {
+        int qtdPlayer1Fields = 0;
+        int qtdPlayer2Fields = 0;
         for (int line = 0; line < 3; line++) {
+            if (fields[line][column].isChecked()) {
+                if (!fields[line][column].getCheckedPlayer().equals(player1)) {
+                    qtdPlayer1Fields++;
+                } else {
+                    qtdPlayer2Fields++;
+                }
+            }
+        }
+        return (qtdPlayer1Fields == 1 && qtdPlayer2Fields == 1);
+    }
+
+    boolean isDiagonalDraw() {
+        int qtdPlayer1Fields = 0;
+        int qtdPlayer2Fields = 0;
+        for (int line = 0; line < 3; line++) {
+            for (int column = 0; line < 3; line++) {
+                if (line == column) {
+                    if (fields[line][column].isChecked()) {
+                        if (!fields[line][column].getCheckedPlayer().equals(player1)) {
+                            qtdPlayer1Fields++;
+                        } else {
+                            qtdPlayer2Fields++;
+                        }
+                    }
+                }
+            }
+
+        }
+        return (qtdPlayer1Fields == 1 && qtdPlayer2Fields == 1);
+    }
+
+    boolean isDraw() {
+        boolean hasLinePlayAvaliable = false;
+        boolean hasColumnPlayAvaliable = false;
+        boolean hasDiagonalPlayAvaliable = false;
+        for (int x = 0; x < 3; x++) {
+            hasLinePlayAvaliable = isLineDraw(x);
+            hasColumnPlayAvaliable = isColumnDraw(x);
+        }
+        hasDiagonalPlayAvaliable = isDiagonalDraw();
+
+        return (hasLinePlayAvaliable || hasColumnPlayAvaliable || hasDiagonalPlayAvaliable);
+    }
+
+    public boolean hasWinner() {
+        // boolean hasWinner = false;
+        for (int line = 0; line < 3; line++) {
+            // hasWinner = checkLine(line, player1);
+            // hasWinner = checkLine(line, player1);
             if (checkLine(line, player1)) {
                 playerWinner = player1;
                 return true;
