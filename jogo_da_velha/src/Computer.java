@@ -12,19 +12,22 @@ public class Computer extends Player {
     }
 
     private static int minimax(Game game, Player player) {
-        if (game.hasWinner()) {
-            return Game.getPlayScore(game, player.getPlayerType());
+        Game simulatedGame = game.getClone();
+
+        if (simulatedGame.hasWinner()) {
+            return Game.getPlayScore(simulatedGame, player.getPlayerType());
         }
         final int[] betterValue = { -1 };
 
-        Player simulatedPlayer = player.getPlayerType().equals(game.getPlayer2().getPlayerType()) ? game.getPlayer1()
-                : game.getPlayer2();
+        Player simulatedPlayer = player.getPlayerType().equals(simulatedGame.getPlayer2().getPlayerType())
+                ? simulatedGame.getPlayer1()
+                : simulatedGame.getPlayer2();
 
-        ArrayList<Integer> avaliablePositions = Game.getAvaliablePositions(game);
+        ArrayList<Integer> avaliablePositions = Game.getAvaliablePositions(simulatedGame);
         avaliablePositions.forEach((position) -> {
-            int[] positionField = game.getPositionFromValue(position);
-            game.getFields()[positionField[0]][positionField[1]].checkField(simulatedPlayer);
-            int value = minimax(game, simulatedPlayer);
+            int[] positionField = simulatedGame.getPositionFromValue(position);
+            simulatedGame.getFields()[positionField[0]][positionField[1]].checkField(simulatedPlayer);
+            int value = minimax(simulatedGame, simulatedPlayer);
             if (betterValue[0] == -1) {
                 betterValue[0] = value;
             } else if (value > betterValue[0]) {
