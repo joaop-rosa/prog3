@@ -12,9 +12,22 @@ public class Field {
         return isChecked;
     }
 
-    public void checkField(Player player) {
-        this.isChecked = true;
+    private void setIsChecked(boolean isChecked) {
+        this.isChecked = isChecked;
+    }
+
+    private void setCheckedPlayer(Player player) {
         this.checkedPlayer = player;
+    }
+
+    public static void checkField(Player player, Field field) {
+        field.setIsChecked(true);
+        field.setCheckedPlayer(player);
+    }
+
+    public static void removeCheckField(Field field) {
+        field.setIsChecked(false);
+        field.setCheckedPlayer(null);
     }
 
     public Player getCheckedPlayer() {

@@ -4,22 +4,13 @@ import java.util.Scanner;
 
 import enums.PlayerType;
 
-public class Game implements Cloneable {
+public class Game {
     private Player player1;
     private Player player2;
     private Field[][] fields;
     private Player playerTurn;
     private Player playerWinner;
     static private int turn = 0;
-
-    Game getClone() {
-        try {
-            return (Game) super.clone();
-        } catch (CloneNotSupportedException e) {
-            System.out.println(" Cloning not allowed. ");
-            return this;
-        }
-    }
 
     public Player getPlayer1() {
         return player1;
@@ -59,9 +50,15 @@ public class Game implements Cloneable {
 
     public int[] getPositionFromValue(int value) {
         int[] position = new int[2];
-        position[0] = value / 3; // Linha
-        position[1] = value % 3; // Coluna
+        position[0] = (value - 1) / 3; // Linha
+        position[1] = (value - 1) % 3; // Coluna
         return position;
+    }
+
+    Game(Game game) {
+        this.player1 = game.getPlayer1();
+        this.player2 = new Computer(game.getPlayer1().getReverseSymbol());
+        this.fields = game.getFields();
     }
 
     Game(Player player1) {
@@ -257,7 +254,7 @@ public class Game implements Cloneable {
         for (int line = 0; line < 3; line++) {
             for (int column = 0; column < 3; column++) {
                 if (fields[line][column].getPosition() == positionPlayed) {
-                    fields[line][column].checkField(player);
+                    Field.checkField(player, fields[line][column]);
                 }
             }
         }
@@ -266,8 +263,6 @@ public class Game implements Cloneable {
     public static int getPlayScore(Game game, PlayerType playerType) {
         if (game.isDraw()) {
             return 0;
-        } else if (!game.hasWinner()) {
-            return -2;
         } else if (game.getPlayerWinner().getPlayerType().equals(playerType)) {
             return 1;
         } else {
@@ -288,7 +283,7 @@ public class Game implements Cloneable {
         return positions;
     }
 
-    public void start() {
+    public void start() throws CloneNotSupportedException {
         int position;
         Scanner scanner = new Scanner(System.in);
         sortFirstPlayer();
