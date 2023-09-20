@@ -3,42 +3,75 @@ import java.util.Scanner;
 import enums.PlayerType;
 import enums.Symbol;
 
-/* 
-    1 - Verificar caso empate
-    2 - Simplificar código de validacão
-    3 - Criar inteligência para COM
-*/
-
 public class App {
+
+    public static void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                new ProcessBuilder("clear").inheritIO().start().waitFor();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     static Symbol askSymbol() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Qual simbolo deseja usar? ");
         System.out.println("1 - X ");
         System.out.println("2 - O ");
+        System.out.printf("\n" + PlayerType.P1 + " qual simbolo deseja usar? ");
         int symbol = scanner.nextInt();
         return symbol == 1 ? Symbol.X : Symbol.O;
     }
 
     public static void main(String[] args) throws Exception {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("--- Jogo da velha ---");
-        System.out.println("Escolha o que deseja fazer: ");
-        System.out.println("1 - Jogar contra o computador ");
-        System.out.println("2 - Jogar contra outro jogador ");
-        System.out.println("0 - Sair ");
-        int option = scanner.nextInt();
+        int option;
+        int playAgain;
 
-        if (option == 1 || option == 2) {
+        do {
+            clearConsole();
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("--- Jogo da velha ---\n");
+            System.out.println("1 - Jogar contra o computador ");
+            System.out.println("2 - Jogar contra outro jogador ");
+            System.out.println("0 - Sair ");
+            System.out.printf("\nEscolha o que deseja fazer: ");
+            option = scanner.nextInt();
+
+            clearConsole();
+
             Game game;
             Player player1 = new Player(PlayerType.P1, askSymbol());
-            if (option == 2) {
-                Player player2 = new Player(PlayerType.P2, player1.getReverseSymbol());
-                game = new Game(player1, player2);
-            } else {
-                game = new Game(player1);
+
+            switch (option) {
+                case 1:
+                    game = new Game(player1);
+                    game.start();
+                    break;
+                case 2:
+                    Player player2 = new Player(PlayerType.P2, player1.getReverseSymbol());
+                    game = new Game(player1, player2);
+                    game.start();
+                    break;
+                default:
+                    break;
             }
-            game.start();
-        }
+
+            if (option == 1 || option == 2) {
+                do {
+                    System.out.println("\n--------------\n");
+                    System.out.println("1 - Sim ");
+                    System.out.println("2 - Não ");
+                    System.out.printf("\nDeseja jogar novamente: ");
+                    playAgain = scanner.nextInt();
+                } while (playAgain != 1 && playAgain != 2);
+            } else {
+                playAgain = 2;
+            }
+
+        } while (option != 0 && playAgain == 1);
+
     }
 }

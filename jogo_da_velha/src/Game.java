@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -50,15 +49,9 @@ public class Game {
 
     public int[] getPositionFromValue(int value) {
         int[] position = new int[2];
-        position[0] = (value - 1) / 3; // Linha
-        position[1] = (value - 1) % 3; // Coluna
+        position[0] = (value - 1) / 3;
+        position[1] = (value - 1) % 3;
         return position;
-    }
-
-    Game(Game game) {
-        this.player1 = game.getPlayer1();
-        this.player2 = new Computer(game.getPlayer1().getReverseSymbol());
-        this.fields = game.getFields();
     }
 
     Game(Player player1) {
@@ -81,20 +74,9 @@ public class Game {
         this.playerTurn = (result == 0) ? player1 : player2;
     }
 
-    private void clearConsole() {
-        try {
-            if (System.getProperty("os.name").contains("Windows")) {
-                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            } else {
-                new ProcessBuilder("clear").inheritIO().start().waitFor();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     private void print() {
         for (int line = 0; line < 3; line++) {
+            System.out.print("  ");
             for (int column = 0; column < 3; column++) {
                 if (fields[line][column].isChecked()) {
                     System.out.print(fields[line][column].getCheckedPlayer().getSymbol() + "  ");
@@ -260,29 +242,6 @@ public class Game {
         }
     }
 
-    public static int getPlayScore(Game game, PlayerType playerType) {
-        if (game.isDraw()) {
-            return 0;
-        } else if (game.getPlayerWinner().getPlayerType().equals(playerType)) {
-            return 1;
-        } else {
-            return -1;
-        }
-    }
-
-    public static ArrayList<Integer> getAvaliablePositions(Game game) {
-        ArrayList<Integer> positions = new ArrayList<>();
-        for (int line = 0; line < 3; line++) {
-            for (int column = 0; column < 3; column++) {
-                if (!game.getFields()[line][column].isChecked()) {
-                    positions.add(game.getFields()[line][column].getPosition());
-                }
-            }
-        }
-
-        return positions;
-    }
-
     public void start() throws CloneNotSupportedException {
         int position;
         Scanner scanner = new Scanner(System.in);
@@ -291,7 +250,7 @@ public class Game {
         while (!hasWinner() && !isDraw()) {
             do {
                 turn++;
-                clearConsole();
+                App.clearConsole();
                 System.out.println(
                         "--- Vez de " + playerTurn.getPlayerType() + " (" + playerTurn.getSymbol() + ") --- \n");
                 print();
@@ -307,7 +266,7 @@ public class Game {
             this.playerTurn = playerTurn.getPlayerType().equals(player1.getPlayerType()) ? player2 : player1;
         }
 
-        clearConsole();
+        App.clearConsole();
 
         if (hasWinner()) {
             System.out.println(
