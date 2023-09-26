@@ -88,6 +88,31 @@ public class Game {
         }
     }
 
+    private boolean hasLineWinner() {
+        int player1Fields = 0;
+        int player2Fields = 0;
+        for (int line = 0; line < fields.length; line++) {
+            for (int column = 0; column < 3; column++) {
+                if (fields[line][column].isChecked()) {
+                    if (!fields[line][column].getCheckedPlayer().equals(player1)) {
+                        player1Fields++;
+                    } else {
+                        player2Fields++;
+                    }
+                }
+            }
+            if (player1Fields == 3) {
+                playerWinner = player1;
+                return true;
+            } else if (player2Fields == 3) {
+                playerWinner = player2;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private boolean checkLine(int line, Player player) {
         return ((fields[line][0].isChecked() && fields[line][0].getCheckedPlayer().equals(player))
                 && (fields[line][1].isChecked() && fields[line][1].getCheckedPlayer().equals(player))
