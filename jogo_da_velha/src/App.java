@@ -42,18 +42,19 @@ public class App {
 
             clearConsole();
 
-            Game game;
-            Player player1 = new Player(PlayerType.P1, askSymbol());
-
             switch (option) {
                 case 1:
-                    game = new Game(player1);
-                    game.start();
+                    Game gameXCom;
+                    Player player = new Player(PlayerType.P1, askSymbol());
+                    gameXCom = new Game(player);
+                    gameXCom.start();
                     break;
                 case 2:
+                    Game gamePvp;
+                    Player player1 = new Player(PlayerType.P1, askSymbol());
                     Player player2 = new Player(PlayerType.P2, player1.getReverseSymbol());
-                    game = new Game(player1, player2);
-                    game.start();
+                    gamePvp = new Game(player1, player2);
+                    gamePvp.start();
                     break;
                 default:
                     break;
