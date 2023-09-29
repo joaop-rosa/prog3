@@ -94,6 +94,110 @@ public class Game {
         for (int line = 0; line < fields.length; line++) {
             for (int column = 0; column < 3; column++) {
                 if (fields[line][column].isChecked()) {
+                    if (fields[line][column].getCheckedPlayer().equals(this.player1)) {
+                        player1Fields++;
+                    } else if (fields[line][column].getCheckedPlayer().equals(this.player2)) {
+                        player2Fields++;
+                    }
+                }
+            }
+            if (player1Fields == 3) {
+                playerWinner = this.player1;
+                return true;
+            } else if (player2Fields == 3) {
+                playerWinner = this.player2;
+                return true;
+            }
+            player1Fields = 0;
+            player2Fields = 0;
+        }
+
+        return false;
+    }
+
+    private boolean hasColumnWinner() {
+        int player1Fields = 0;
+        int player2Fields = 0;
+        for (int column = 0; column < fields.length; column++) {
+            for (int line = 0; line < fields.length; line++) {
+                if (fields[line][column].isChecked()) {
+                    if (fields[line][column].getCheckedPlayer().equals(this.player1)) {
+                        player1Fields++;
+                    } else if (fields[line][column].getCheckedPlayer().equals(this.player2)) {
+                        player2Fields++;
+                    }
+                }
+            }
+            if (player1Fields == 3) {
+                playerWinner = this.player1;
+                return true;
+            } else if (player2Fields == 3) {
+                playerWinner = this.player2;
+                return true;
+            }
+            player1Fields = 0;
+            player2Fields = 0;
+        }
+
+        return false;
+    }
+
+    private boolean hasDiagonal1Winner() {
+        int player1Fields = 0;
+        int player2Fields = 0;
+        for (int index = 0; index < 3; index++) {
+            if (fields[index][index].isChecked()) {
+                if (fields[index][index].getCheckedPlayer().equals(player1)) {
+                    player1Fields++;
+                } else if (fields[index][index].getCheckedPlayer().equals(this.player2)) {
+                    player2Fields++;
+                }
+            }
+        }
+
+        if (player1Fields == 3) {
+            playerWinner = this.player1;
+            return true;
+        } else if (player2Fields == 3) {
+            playerWinner = this.player2;
+            return true;
+        }
+        return false;
+    }
+
+    private boolean hasDiagonal2Winner() {
+        int player1Fields = 0;
+        int player2Fields = 0;
+
+        for (int index = 0; index < 3; index++) {
+            int diagonal2Calc = 3 - 1 - index;
+            if (fields[index][diagonal2Calc].isChecked()) {
+                if (fields[index][diagonal2Calc].getCheckedPlayer().equals(player1)) {
+                    player1Fields++;
+                } else if (fields[index][diagonal2Calc].getCheckedPlayer().equals(player2)) {
+                    player2Fields++;
+                }
+            }
+        }
+
+        if (player1Fields == 3) {
+            playerWinner = this.player1;
+            return true;
+        } else if (player2Fields == 3) {
+            playerWinner = this.player2;
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isLinesDraw() {
+        int linesDraw = 0;
+        int player1Fields = 0;
+        int player2Fields = 0;
+        for (int line = 0; line < fields.length; line++) {
+            for (int column = 0; column < 3; column++) {
+                if (fields[line][column].isChecked()) {
                     if (!fields[line][column].getCheckedPlayer().equals(player1)) {
                         player1Fields++;
                     } else {
@@ -101,149 +205,80 @@ public class Game {
                     }
                 }
             }
-            if (player1Fields == 3) {
-                playerWinner = player1;
-                return true;
-            } else if (player2Fields == 3) {
-                playerWinner = player2;
-                return true;
+            if (player1Fields >= 1 && player2Fields >= 1) {
+                linesDraw++;
             }
+            player1Fields = 0;
+            player2Fields = 0;
         }
 
-        return false;
+        return (linesDraw == 3);
     }
 
-    private boolean checkLine(int line, Player player) {
-        return ((fields[line][0].isChecked() && fields[line][0].getCheckedPlayer().equals(player))
-                && (fields[line][1].isChecked() && fields[line][1].getCheckedPlayer().equals(player))
-                && (fields[line][2].isChecked() && fields[line][2].getCheckedPlayer().equals(player)));
-    }
-
-    private boolean checkColumn(int column, Player player) {
-        return ((fields[0][column].isChecked() && fields[0][column].getCheckedPlayer().equals(player))
-                && (fields[1][column].isChecked() && fields[1][column].getCheckedPlayer().equals(player))
-                && (fields[2][column].isChecked() && fields[2][column].getCheckedPlayer().equals(player)));
-    }
-
-    private boolean checkDiagonal(Player player) {
-        return ((fields[0][0].isChecked() && fields[0][0].getCheckedPlayer().equals(player))
-                && (fields[1][1].isChecked() && fields[1][1].getCheckedPlayer().equals(player))
-                && (fields[2][2].isChecked() && fields[2][2].getCheckedPlayer().equals(player))) ||
-                ((fields[0][2].isChecked() && fields[0][2].getCheckedPlayer().equals(player))
-                        && (fields[1][1].isChecked() && fields[1][1].getCheckedPlayer().equals(player))
-                        && (fields[2][0].isChecked() && fields[2][0].getCheckedPlayer().equals(player)));
-    }
-
-    private boolean isLineDraw(int line) {
-        int qtdPlayer1Fields = 0;
-        int qtdPlayer2Fields = 0;
-        for (int column = 0; column < 3; column++) {
-            if (fields[line][column].isChecked()) {
-                if (!fields[line][column].getCheckedPlayer().equals(player1)) {
-                    qtdPlayer1Fields++;
-                } else {
-                    qtdPlayer2Fields++;
+    private boolean isColumnsDraw() {
+        int columnDraw = 0;
+        var player1Fields = 0;
+        int player2Fields = 0;
+        for (int column = 0; column < fields.length; column++) {
+            for (int line = 0; line < fields.length; line++) {
+                if (fields[line][column].isChecked()) {
+                    if (!fields[line][column].getCheckedPlayer().equals(player1)) {
+                        player1Fields++;
+                    } else {
+                        player2Fields++;
+                    }
                 }
             }
-        }
-        return (qtdPlayer1Fields >= 1 && qtdPlayer2Fields >= 1);
-    }
-
-    private boolean isColumnDraw(int column) {
-        int qtdPlayer1Fields = 0;
-        int qtdPlayer2Fields = 0;
-        for (int line = 0; line < 3; line++) {
-            if (fields[line][column].isChecked()) {
-                if (!fields[line][column].getCheckedPlayer().equals(player1)) {
-                    qtdPlayer1Fields++;
-                } else {
-                    qtdPlayer2Fields++;
-                }
+            if (player1Fields >= 1 && player2Fields >= 1) {
+                columnDraw++;
             }
+            player1Fields = 0;
+            player2Fields = 0;
         }
-        return (qtdPlayer1Fields >= 1 && qtdPlayer2Fields >= 1);
+
+        return (columnDraw == 3);
     }
 
-    private boolean isDiagonalDraw() {
-        int diagonal1QtdPlayer1Fields = 0;
-        int diagonal1QtdPlayer2Fields = 0;
-        int diagonal2QtdPlayer1Fields = 0;
-        int diagonal2QtdPlayer2Fields = 0;
-        for (int x = 0; x < 3; x++) {
-            if (fields[x][x].isChecked()) {
-                if (!fields[x][x].getCheckedPlayer().equals(player1)) {
-                    diagonal1QtdPlayer1Fields++;
-                } else {
-                    diagonal1QtdPlayer2Fields++;
+    private boolean isDiagonal1Draw() {
+        int player1Fields = 0;
+        int player2Fields = 0;
+        for (int index = 0; index < 3; index++) {
+            if (fields[index][index].isChecked()) {
+                if (fields[index][index].getCheckedPlayer().equals(player1)) {
+                    player1Fields++;
+                } else if (fields[index][index].getCheckedPlayer().equals(this.player2)) {
+                    player2Fields++;
                 }
             }
         }
 
-        for (int x = 0; x < 3; x++) {
-            if (fields[x][3 - 1 - x].isChecked()) {
-                if (!fields[x][3 - 1 - x].getCheckedPlayer().equals(player1)) {
-                    diagonal2QtdPlayer1Fields++;
-                } else {
-                    diagonal2QtdPlayer2Fields++;
+        return (player1Fields >= 1 && player2Fields >= 1);
+    }
+
+    private boolean isDiagonal2Draw() {
+        int player1Fields = 0;
+        int player2Fields = 0;
+
+        for (int index = 0; index < 3; index++) {
+            int diagonal2Calc = 3 - 1 - index;
+            if (fields[index][diagonal2Calc].isChecked()) {
+                if (fields[index][diagonal2Calc].getCheckedPlayer().equals(player1)) {
+                    player1Fields++;
+                } else if (fields[index][diagonal2Calc].getCheckedPlayer().equals(player2)) {
+                    player2Fields++;
                 }
             }
         }
 
-        return (diagonal1QtdPlayer1Fields >= 1 && diagonal1QtdPlayer2Fields >= 1)
-                && (diagonal2QtdPlayer1Fields >= 1 && diagonal2QtdPlayer2Fields >= 1);
+        return (player1Fields >= 1 && player2Fields >= 1);
     }
 
     public boolean isDraw() {
-        boolean hasLinePlayAvaliable = false;
-        boolean hasColumnPlayAvaliable = false;
-        boolean hasDiagonalPlayAvaliable = false;
-        for (int x = 0; x < 3; x++) {
-            if (!isLineDraw(x)) {
-                hasLinePlayAvaliable = true;
-                break;
-            }
-
-            if (!isColumnDraw(x)) {
-                hasColumnPlayAvaliable = true;
-                break;
-            }
-        }
-        hasDiagonalPlayAvaliable = !isDiagonalDraw();
-
-        return (!hasLinePlayAvaliable && !hasColumnPlayAvaliable && !hasDiagonalPlayAvaliable);
+        return (isLinesDraw() && isColumnsDraw() && isDiagonal1Draw() && isDiagonal2Draw());
     }
 
     public boolean hasWinner() {
-        for (int line = 0; line < 3; line++) {
-            if (checkLine(line, player1)) {
-                playerWinner = player1;
-                return true;
-            }
-            if (checkLine(line, player2)) {
-                playerWinner = player2;
-                return true;
-            }
-        }
-        for (int column = 0; column < 3; column++) {
-            if (checkColumn(column, player1)) {
-                playerWinner = player1;
-                return true;
-            }
-            if (checkColumn(column, player2)) {
-                playerWinner = player2;
-                return true;
-            }
-        }
-
-        if (checkDiagonal(player1)) {
-            playerWinner = player1;
-            return true;
-        }
-        if (checkDiagonal(player2)) {
-            playerWinner = player2;
-            return true;
-        }
-        return false;
+        return (hasLineWinner() || hasColumnWinner() || hasDiagonal1Winner() || hasDiagonal2Winner());
     }
 
     private boolean isValidPlay(int positionPlayed) {
@@ -267,7 +302,7 @@ public class Game {
         }
     }
 
-    public void start() throws CloneNotSupportedException {
+    public void start() {
         int position;
         Scanner scanner = new Scanner(System.in);
         sortFirstPlayer();
@@ -280,7 +315,7 @@ public class Game {
                         "--- Vez de " + playerTurn.getPlayerType() + " (" + playerTurn.getSymbol() + ") --- \n");
                 print();
                 if (playerTurn.getPlayerType().equals(PlayerType.COM)) {
-                    position = new Computer(player2.getSymbol()).play(this);
+                    position = Computer.play(this);
                 } else {
                     System.out.printf("\nIndique a posição que deseja jogar: ");
                     position = scanner.nextInt();

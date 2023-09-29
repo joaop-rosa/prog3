@@ -40,6 +40,7 @@ public class Computer extends Player {
         int[] betterValue = { player.getPlayerType().equals(PlayerType.COM) ? Integer.MIN_VALUE : Integer.MAX_VALUE };
 
         ArrayList<Integer> avaliablePositions = getAvaliablePositions(game);
+
         avaliablePositions.forEach((position) -> {
             int[] positionField = game.getPositionFromValue(position);
             Field.checkField(simulatedPlayer, game.getFields()[positionField[0]][positionField[1]]);
@@ -81,8 +82,6 @@ public class Computer extends Player {
                 betterValue[0] = value;
                 betterMove[0] = position;
             }
-            // System.out.println("position:" + position);
-            // System.out.println("value: " + value);
         });
 
         return betterMove[0];
