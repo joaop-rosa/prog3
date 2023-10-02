@@ -1,5 +1,7 @@
-import enums.PlayerType;
-import enums.Symbol;
+package jogoVelha;
+
+import jogoVelha.enums.PlayerType;
+import jogoVelha.enums.Symbol;
 
 public class Player {
     private PlayerType playerType;

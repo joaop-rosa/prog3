@@ -1,7 +1,9 @@
+package jogoVelha;
+
 import java.util.Random;
 import java.util.Scanner;
 
-import enums.PlayerType;
+import jogoVelha.enums.PlayerType;
 
 public class Game {
     private Player player1;

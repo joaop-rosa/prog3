@@ -1,4 +1,4 @@
-package enums;
+package jogoVelha.enums;
 
 public enum Symbol {
     X("X"), O("O");

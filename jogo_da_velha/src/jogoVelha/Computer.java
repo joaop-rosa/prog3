@@ -1,7 +1,9 @@
+package jogoVelha;
+
 import java.util.ArrayList;
 
-import enums.PlayerType;
-import enums.Symbol;
+import jogoVelha.enums.PlayerType;
+import jogoVelha.enums.Symbol;
 
 public class Computer extends Player {
 

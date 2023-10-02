@@ -1,4 +1,4 @@
-package enums;
+package jogoVelha.enums;
 
 public enum PlayerType {
     P1("P1"), P2("P2"), COM("COM");

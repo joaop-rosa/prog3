@@ -1,7 +1,13 @@
+////////////////////////////////////
+//// Autor: João Paulo da Rosa ////
+///////////////////////////////////
+
+package jogoVelha;
+
 import java.util.Scanner;
 
-import enums.PlayerType;
-import enums.Symbol;
+import jogoVelha.enums.PlayerType;
+import jogoVelha.enums.Symbol;
 
 public class App {
 

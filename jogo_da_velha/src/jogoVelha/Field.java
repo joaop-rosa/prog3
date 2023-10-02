@@ -1,3 +1,5 @@
+package jogoVelha;
+
 public class Field {
     private boolean isChecked;
     private Player checkedPlayer;
