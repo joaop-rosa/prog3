@@ -1,12 +1,9 @@
-
-////////////////////////////////////////////
-/////////// João Paulo da Rosa /////////////
-////////////////////////////////////////////
 import java.util.Scanner;
 
 import enums.PlayerType;
 import enums.Symbol;
 
+/////////// João Paulo da Rosa /////////////
 public class App {
 
     public static void clearConsole() {
