@@ -29,7 +29,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         int option;
-        int playAgain;
+        int playAgain = 1;
 
         do {
             clearConsole();
@@ -68,12 +68,19 @@ public class App {
                     System.out.println("2 - Não ");
                     System.out.printf("\nDeseja jogar novamente: ");
                     playAgain = scanner.nextInt();
+                    clearConsole();
                 } while (playAgain != 1 && playAgain != 2);
-            } else {
-                playAgain = 2;
+
+                if (playAgain == 2) {
+                    break;
+                }
             }
 
-        } while (option != 0 && playAgain == 1);
+            if (option == 0) {
+                break;
+            }
+
+        } while (option != 0 || playAgain == 1);
 
     }
 }
