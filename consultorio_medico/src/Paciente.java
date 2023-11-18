@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public class Paciente {
     private String nome;
-    private String sobrenome;
     private LocalDate dataNascimento;
     private ArrayList<Atendimento> atendimentos;
 
@@ -48,11 +47,11 @@ public class Paciente {
     // Obtém a idade da pessoa
     @Override
     public String toString() {
-        String retorno = "Nome: " + nome + " " + sobrenome;
+        String retorno = "Nome: " + nome;
         DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String data = formatoBr.format(this.dataNascimento);
-        retorno += "Data de nascimento: " + data;
-        retorno += "Idade: " + getIdade();
+        retorno += "\t\t\t | Data de nascimento: " + data;
+        retorno += " | Idade: " + getIdade();
         return retorno;
     }
 }

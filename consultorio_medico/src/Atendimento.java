@@ -5,6 +5,11 @@ public class Atendimento {
     private LocalDate data;
     private String descricao;
 
+    public Atendimento(String descricao) {
+        this.data = LocalDate.now();
+        this.descricao = descricao;
+    }
+
     public String getDescricao() {
         return descricao;
     }
