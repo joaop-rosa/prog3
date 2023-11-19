@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -38,13 +39,27 @@ public class App {
         scanner = new Scanner(System.in);
         paciente.setNome(nome + " " + sobrenome);
 
-        System.out.println("Informe o ano de nascimento do paciente");
-        int ano = scanner.nextInt();
-        System.out.println("Informe o mes de nascimento do paciente");
-        int mes = scanner.nextInt();
-        System.out.println("Informe o dia de nascimento do paciente");
-        int dia = scanner.nextInt();
-        paciente.setDataNascimento(LocalDate.of(ano, mes, dia));
+        boolean dataValida = false;
+        do {
+            try {
+                System.out.println("Informe o ano de nascimento do paciente");
+                int ano = scanner.nextInt();
+                System.out.println("Informe o mes de nascimento do paciente");
+                int mes = scanner.nextInt();
+                System.out.println("Informe o dia de nascimento do paciente");
+                int dia = scanner.nextInt();
+                LocalDate dataNascimento = LocalDate.of(ano, mes, dia);
+                if (Period.between(dataNascimento, LocalDate.now()).getDays() < 0) {
+                    throw new Exception();
+                }
+                paciente.setDataNascimento(dataNascimento);
+                dataValida = true;
+            } catch (Exception e) {
+                System.out.println("A data de nascimento informada eh invalida");
+                dataValida = false;
+            }
+        } while (!dataValida);
+
         pacientes.add(paciente);
     }
 
@@ -86,6 +101,7 @@ public class App {
     static void listarPacienteDetalhado(Paciente paciente) {
         clearConsole();
         System.out.println("Busca detalhada de paciente");
+        System.out.println("-----------------------------");
         System.out.println("Paciente: " + paciente.toString());
         System.out.println("-----------------------------");
         if (paciente.getAtendimentos().size() == 0) {
@@ -140,13 +156,26 @@ public class App {
             scanner = new Scanner(System.in);
         } while (respostaData != 1 && respostaData != 2);
         if (respostaData == 1) {
-            System.out.println("Informe o ano de nascimento do paciente");
-            int ano = scanner.nextInt();
-            System.out.println("Informe o mes de nascimento do paciente");
-            int mes = scanner.nextInt();
-            System.out.println("Informe o dia de nascimento do paciente");
-            int dia = scanner.nextInt();
-            paciente.setDataNascimento(LocalDate.of(ano, mes, dia));
+            boolean dataValida = false;
+            do {
+                try {
+                    System.out.println("Informe o ano de nascimento do paciente");
+                    int ano = scanner.nextInt();
+                    System.out.println("Informe o mes de nascimento do paciente");
+                    int mes = scanner.nextInt();
+                    System.out.println("Informe o dia de nascimento do paciente");
+                    int dia = scanner.nextInt();
+                    LocalDate dataNascimento = LocalDate.of(ano, mes, dia);
+                    if (Period.between(dataNascimento, LocalDate.now()).getDays() < 0) {
+                        throw new Exception();
+                    }
+                    paciente.setDataNascimento(dataNascimento);
+                    dataValida = true;
+                } catch (Exception e) {
+                    System.out.println("A data de nascimento informada eh invalida");
+                    dataValida = false;
+                }
+            } while (!dataValida);
         }
     }
 
@@ -185,6 +214,7 @@ public class App {
             System.out.println("Nenhum paciente encontrado");
             aguardarTecla();
         } else {
+            clearConsole();
             System.out.println("Foi encontrado mais de um paciente");
             System.out.println("Selecione o paciente que deseja pelo código");
             pacientesFiltrados.forEach((paciente) -> {
@@ -221,11 +251,12 @@ public class App {
             System.out.println("1 - Incluir paciente");
             System.out.println("2 - Listar pacientes");
             System.out.println("3 - Realizar consulta");
-            System.out.println("4 - Mostrar paciente");
-            System.out.println("5 - Alterar paciente");
+            System.out.println("4 - Detalhar atendimentos de paciente");
+            System.out.println("5 - Editar paciente");
             System.out.println("6 - Apagar paciente");
-            System.out.println("7 - Carga inicial");
             System.out.println("0 - Sair");
+            System.out.println("\nOpcoes de teste: ");
+            System.out.println("7 - Carga inicial de pacientes e atendimentos");
             System.out.print("\nDigite a opcao: ");
             option = scanner.nextInt();
             scanner = new Scanner(System.in);
@@ -262,9 +293,11 @@ public class App {
                     System.out.println("-----------------------------");
                     System.out.println("Selecione o paciente que deseja editar");
                     Paciente pacienteEditar = buscarPaciente();
-                    editarPaciente(pacienteEditar);
-                    System.out.println("Paciente: " + pacienteEditar.getNome() + " editado com sucesso");
-                    aguardarTecla();
+                    if (pacienteEditar != null) {
+                        editarPaciente(pacienteEditar);
+                        System.out.println("Paciente: " + pacienteEditar.getNome() + " editado com sucesso");
+                        aguardarTecla();
+                    }
                     break;
                 case 6:
                     clearConsole();

@@ -50,7 +50,7 @@ public class Paciente {
         String retorno = "Nome: " + nome;
         DateTimeFormatter formatoBr = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String data = formatoBr.format(this.dataNascimento);
-        retorno += "\t\t\t | Data de nascimento: " + data;
+        retorno += "\t | Data de nascimento: " + data;
         retorno += " | Idade: " + getIdade();
         return retorno;
     }
