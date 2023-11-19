@@ -3,6 +3,7 @@ import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+// Aluno: João Paulo da Rosa
 public class Paciente {
     private String nome;
     private LocalDate dataNascimento;

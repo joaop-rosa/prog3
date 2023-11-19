@@ -4,6 +4,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Aluno: João Paulo da Rosa
 public class App {
     private static ArrayList<Paciente> pacientes = new ArrayList<>();
     private static Scanner scanner = new Scanner(System.in);
